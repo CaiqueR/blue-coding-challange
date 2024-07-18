@@ -1,4 +1,4 @@
-name: Frontend Build
+name: frontend-build
 
 on:
   pull_request:
