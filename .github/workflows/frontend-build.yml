@@ -1,4 +1,4 @@
-name: Frontend Build
+name: frontend-build
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  enforce-all-checks:
     runs-on: ubuntu-latest
 
     defaults:
