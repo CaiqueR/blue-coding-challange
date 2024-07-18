@@ -1,4 +1,4 @@
-name: Client Build
+name: Frontend Build
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - "client/**"
 
 concurrency:
-  group: client-build-${{ github.ref }}
+  group: client-build-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
@@ -24,18 +24,21 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "18.17.0"
+          node-version: "20.15.1"
 
-      - name: Cache Node.js modules
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Cache pnpm store
         uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('client/pnpm-lock.yaml') }}
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('client/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-pnpm-
 
       - name: Install dependencies
         run: pnpm install
 
       - name: Build project
-        run: pnpm build
+        run: pnpm run build
